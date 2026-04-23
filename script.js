@@ -254,7 +254,7 @@ function blowOutCandles() {
    ================================================================ */
 function triggerCelebration() {
   hasCelebrated = true;
-  statusText.innerHTML = "🎉 Happy Birthday! 🎉";
+  statusText.innerHTML = "🎉 ርሑስ ልደት ጽብቕተይ 🎉";
   meterFill.style.background = "#e74c3c";
 
   // --- EXISTING: spark explosion (unchanged) ---
