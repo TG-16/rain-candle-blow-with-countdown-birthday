@@ -1,0 +1,505 @@
+/* ================================================================
+   BIRTHDAY SURPRISE — STYLE.CSS
+   Extends the original with: welcome overlay, music flow, 
+   countdown section, and refined typography.
+   Original styles are preserved below in clearly marked blocks.
+   ================================================================ */
+
+/* --- GOOGLE FONTS + ROOT VARS --- */
+:root {
+    --rose:    #f4a0b0;
+    --gold:    #f6c94e;
+    --peach:   #f9c784;
+    --cream:   #fdf4e3;
+    --deep:    #1a1028;
+    --muted:   rgba(255,255,255,0.55);
+    --radius:  18px;
+}
+
+/* ================================================================
+   GLOBAL STYLES  (original, extended)
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    height: 100dvh;
+    background: radial-gradient(ellipse at 60% 40%, #2d1b4e 0%, #1a1028 55%, #0d0a18 100%);
+    color: white;
+    font-family: 'DM Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden { display: none !important; }
+
+
+/* ================================================================
+   STEP 1: WELCOME OVERLAY
+   ================================================================ */
+#welcome-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: radial-gradient(ellipse at 50% 60%, #3b1f5e 0%, #1a0d30 60%, #0a0714 100%);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+#welcome-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.04);
+}
+
+/* Particle canvas sits behind content */
+#particle-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.welcome-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 0 24px;
+    animation: fadeUp 1s ease both;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+.gift-pulse {
+    font-size: clamp(3.5rem, 10vw, 6rem);
+    animation: giftBounce 2.4s ease-in-out infinite;
+    filter: drop-shadow(0 0 24px rgba(246,201,78,0.55));
+}
+
+@keyframes giftBounce {
+    0%, 100% { transform: translateY(0)   scale(1);    }
+    40%       { transform: translateY(-14px) scale(1.06); }
+    60%       { transform: translateY(-8px)  scale(1.03); }
+}
+
+.welcome-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 7vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0;
+    background: linear-gradient(135deg, #fff 30%, var(--gold) 70%, var(--rose) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.welcome-title em {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.welcome-sub {
+    font-size: clamp(0.95rem, 3vw, 1.15rem);
+    color: var(--muted);
+    margin: 0;
+    letter-spacing: 0.02em;
+}
+
+.tap-hint {
+    margin-top: 12px;
+    font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.35; }
+    50%       { opacity: 0.75; }
+}
+
+
+/* ================================================================
+   EXISTING: SETUP SCREEN (refined, structure unchanged)
+   ================================================================ */
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 900;
+    background: rgba(10, 5, 22, 0.75);
+    backdrop-filter: blur(6px);
+}
+
+.overlay-inner {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 2.8rem 2.5rem;
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+    margin: 20px;
+    width: 90%;
+    max-width: 420px;
+    animation: fadeUp 0.5s ease both;
+}
+
+.overlay-emoji {
+    font-size: 2.4rem;
+    display: block;
+    margin-bottom: 12px;
+    animation: giftBounce 2.4s ease-in-out infinite;
+}
+
+.overlay-inner h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin: 0 0 8px;
+    background: linear-gradient(135deg, #fff, var(--gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.overlay-inner p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 0 0 20px;
+    line-height: 1.5;
+}
+
+.input-group { margin-top: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+
+input {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.1);
+    color: white;
+    width: 90px;
+    font-size: 16px;
+    text-align: center;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+}
+input:focus { border-color: var(--gold); }
+input::placeholder { color: rgba(255,255,255,0.35); }
+
+button {
+    padding: 12px 26px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #e85d75, #c0392b);
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    transition: 0.25s;
+    box-shadow: 0 4px 18px rgba(232, 93, 117, 0.35);
+}
+button:hover { transform: scale(1.05); box-shadow: 0 6px 24px rgba(232, 93, 117, 0.5); }
+
+
+/* ================================================================
+   EXISTING: 3D CAKE SYSTEM (unchanged)
+   ================================================================ */
+.cake-wrapper {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 450px;
+    height: 200px;
+}
+
+@media (max-width: 600px) {
+    .cake-wrapper {
+        transform: translateX(-50%) scale(0.7);
+        bottom: 30%;
+    }
+}
+
+.plate {
+    position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
+    width: 450px; height: 150px; background: #bdc3c7; border-radius: 50%;
+    box-shadow: 0 20px 30px rgba(0,0,0,0.6), inset 0 -5px 15px rgba(0,0,0,0.2);
+}
+
+.cake {
+    position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+    width: 340px; height: 160px;
+}
+
+.cake-bottom {
+    position: absolute; top: 60px; width: 100%; height: 100px;
+    background: #d35400; border-radius: 50%;
+    box-shadow: 0 15px 20px rgba(0,0,0,0.4);
+}
+.cake-side {
+    position: absolute; top: 0; width: 100%; height: 110px;
+    background: linear-gradient(to right, #a04000 0%, #d35400 20%, #f39c12 50%, #d35400 80%, #a04000 100%);
+}
+.icing-side {
+    position: absolute; top: -10px; width: 100%; height: 40px;
+    background: linear-gradient(to right, #bdc3c7 0%, #ecf0f1 20%, #ffffff 50%, #ecf0f1 80%, #bdc3c7 100%);
+}
+.icing-top {
+    position: absolute; top: -50px; width: 100%; height: 100px;
+    background: #ecf0f1; border-radius: 50%; z-index: 2;
+    box-shadow: inset 0 -5px 15px rgba(0,0,0,0.1);
+}
+.drip {
+    position: absolute; top: 30px; width: 20px; background: #ecf0f1;
+    border-radius: 0 0 15px 15px; box-shadow: -2px 5px 5px rgba(0,0,0,0.1);
+}
+.cake-top {
+    position: absolute; top: -50px; width: 100%; height: 100px;
+    border-radius: 50%; z-index: 5;
+}
+
+
+/* ================================================================
+   EXISTING: CANDLE RAIN & PHYSICS (unchanged)
+   ================================================================ */
+.candle-wrapper {
+    position: absolute;
+    transform-origin: bottom center;
+    animation: dropIn var(--fall-duration) cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards,
+               wobble 0.4s ease-out var(--fall-duration) forwards;
+    opacity: 0;
+}
+.candle-body {
+    width: 10px; height: 50px;
+    background: repeating-linear-gradient(45deg, #fff, #fff 5px, #e74c3c 5px, #e74c3c 10px);
+    border-radius: 3px; position: relative; box-shadow: -2px 2px 4px rgba(0,0,0,0.3);
+}
+.flame {
+    position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+    width: 12px; height: 20px;
+    background: radial-gradient(ellipse at bottom, #fff 10%, #f1c40f 40%, #e67e22 80%);
+    border-radius: 50% 50% 20% 20%; box-shadow: 0 0 20px #f1c40f, 0 0 40px #e67e22;
+    animation: flicker 0.1s infinite alternate;
+}
+.smoke {
+    position: absolute; top: -20px; left: 50%; width: 10px; height: 10px;
+    background: rgba(200, 200, 200, 0.5); border-radius: 50%; filter: blur(3px);
+    opacity: 0; transform: translateX(-50%);
+}
+
+.flame.out { display: none; }
+.flame.out + .smoke { animation: puff 1s ease-out forwards; }
+
+@keyframes dropIn {
+    0%   { transform: translateY(-1000px) scale(1.2); opacity: 0; }
+    10%  { opacity: 1; }
+    100% { transform: translateY(0px) scale(1); opacity: 1; }
+}
+@keyframes wobble {
+    0%   { transform: scaleY(1); }
+    50%  { transform: scaleY(0.85) scaleX(1.1); }
+    100% { transform: scaleY(1) scaleX(1); }
+}
+@keyframes flicker {
+    from { transform: translateX(-50%) scale(0.95); opacity: 0.9; }
+    to   { transform: translateX(-50%) scale(1.05); opacity: 1; box-shadow: 0 0 25px #f1c40f, 0 0 45px #e67e22; }
+}
+@keyframes puff {
+    0%   { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50px) scale(3); }
+}
+
+
+/* ================================================================
+   EXISTING: UI FEEDBACK (refined positioning)
+   ================================================================ */
+.ui-feedback {
+    position: absolute;
+    top: 12%;
+    left: 5%;
+    width: 100%;
+    text-align: center;
+    font-size: 1.2rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+.mic-meter {
+    width: 100%; max-width: 250px; height: 10px;
+    background: rgba(0,0,0,0.5);
+    margin: 10px auto; border-radius: 5px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+#meter-fill {
+    width: 0%; height: 100%; background: #2ecc71;
+    box-shadow: 0 0 10px #2ecc71;
+    transition: width 0.05s linear;
+}
+
+
+/* ================================================================
+   EXISTING: SPARK EXPLOSION (unchanged)
+   ================================================================ */
+#spark-container {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1px; height: 1px; z-index: 100;
+}
+
+.spark {
+    position: absolute; top: 0; left: 0;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--spark-color);
+    box-shadow: 0 0 10px var(--spark-color);
+    animation: blast 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes blast {
+    0%  { transform: translate(0, 0) scale(1); opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+
+
+/* ================================================================
+   STEP 6: LIVE COUNTDOWN SECTION
+   ================================================================ */
+#countdown-section {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96%;
+    max-width: 480px;
+    z-index: 50;
+    opacity: 0;
+}
+
+#countdown-section.reveal {
+    animation: slideUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateX(-50%) translateY(40px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0);    }
+}
+
+.countdown-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 22px;
+    backdrop-filter: blur(20px);
+    padding: 20px 16px 18px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.45), 0 0 0 1px rgba(246,201,78,0.07);
+}
+
+.countdown-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    color: rgba(255,255,255,0.75);
+    margin: 0 0 16px;
+    letter-spacing: 0.01em;
+}
+
+/* 4-column grid: value : value : value : value */
+.countdown-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.cd-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: clamp(60px, 18vw, 90px);
+}
+
+.cd-value {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 9vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(160deg, #fff 10%, var(--gold) 55%, var(--rose) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 14px rgba(246,201,78,0.35));
+    /* Prevent layout shift as number changes */
+    display: inline-block;
+    min-width: 2ch;
+    text-align: center;
+    transition: transform 0.15s ease;
+}
+
+.cd-value.tick {
+    transform: scale(1.08);
+}
+
+.cd-label {
+    font-size: clamp(0.6rem, 2vw, 0.72rem);
+    color: rgba(255,255,255,0.38);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+.cd-sep {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 7vw, 3rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.22);
+    line-height: 1;
+    margin-bottom: 20px; /* offset to align with numbers not labels */
+    padding: 0 2px;
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+.countdown-date {
+    font-size: clamp(0.7rem, 2.5vw, 0.82rem);
+    color: rgba(255,255,255,0.25);
+    margin: 14px 0 0;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+/* Confetti pieces */
+.confetti-piece {
+    position: fixed;
+    top: -14px;
+    width: 10px;
+    height: 14px;
+    border-radius: 2px;
+    opacity: 0;
+    animation: confettiFall var(--cf-dur) ease-in var(--cf-delay) forwards;
+    transform-origin: center top;
+    z-index: 200;
+}
+
+@keyframes confettiFall {
+    0%   { opacity: 1; transform: translateY(0) rotate(0deg) scaleX(1); }
+    50%  { scaleX(-1); }
+    100% { opacity: 0.6; transform: translateY(100vh) rotate(var(--cf-rot)) scaleX(-1); }
+}

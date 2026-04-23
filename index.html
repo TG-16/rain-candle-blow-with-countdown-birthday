@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- STEP 1: Welcome Overlay — shown on first load                -->
+    <!-- ============================================================ -->
+    <div id="welcome-overlay">
+        <canvas id="particle-canvas"></canvas>
+        <div class="welcome-content">
+            <div class="gift-pulse">🎁</div>
+            <h1 class="welcome-title">Tap to begin<br><em>your surprise</em></h1>
+            <p class="welcome-sub">A little something just for you</p>
+            <div class="tap-hint">✦ tap anywhere ✦</div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- EXISTING: Age input dialog (kept intact, shown after tap)    -->
+    <!-- ============================================================ -->
+    <div id="setup-screen" class="overlay hidden">
+        <div class="overlay-inner">
+            <span class="overlay-emoji">🎂</span>
+            <h1>Birthday Ritual</h1>
+            <p>Allow microphone access so you can blow out the candles!</p>
+            <div class="input-group">
+                <input type="number" id="ageInput" placeholder="Age" min="1" max="100">
+                <button id="initBtn">Bake the Cake</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- EXISTING: Main stage (cake + candles + mic feedback)         -->
+    <!-- ============================================================ -->
+    <div id="stage" class="hidden">
+
+        <div class="cake-wrapper">
+            <div class="plate"></div>
+            <div class="cake">
+                <div class="cake-bottom"></div>
+                <div class="cake-side"></div>
+                <div class="icing-side">
+                    <div class="drip" style="left: 10%; height: 45px;"></div>
+                    <div class="drip" style="left: 25%; height: 25px;"></div>
+                    <div class="drip" style="left: 45%; height: 55px;"></div>
+                    <div class="drip" style="left: 65%; height: 35px;"></div>
+                    <div class="drip" style="left: 85%; height: 50px;"></div>
+                </div>
+                <div class="icing-top"></div>
+                <div class="cake-top" id="cake-surface"></div>
+            </div>
+        </div>
+
+        <div class="ui-feedback">
+            <p id="statusText">Take a deep breath and blow! 🌬️</p>
+            <div class="mic-meter"><div id="meter-fill"></div></div>
+        </div>
+
+        <div id="spark-container"></div>
+
+        <!-- ============================================================ -->
+        <!-- STEP 6: Live countdown to April 24, 2027                    -->
+        <!-- ============================================================ -->
+        <div id="countdown-section" class="hidden">
+            <div class="countdown-card">
+                <p class="countdown-title">🎉 Next celebration in</p>
+                <div class="countdown-grid">
+                    <div class="cd-unit">
+                        <span class="cd-value" id="cd-days">00</span>
+                        <span class="cd-label">days</span>
+                    </div>
+                    <div class="cd-sep">:</div>
+                    <div class="cd-unit">
+                        <span class="cd-value" id="cd-hours">00</span>
+                        <span class="cd-label">hours</span>
+                    </div>
+                    <div class="cd-sep">:</div>
+                    <div class="cd-unit">
+                        <span class="cd-value" id="cd-minutes">00</span>
+                        <span class="cd-label">mins</span>
+                    </div>
+                    <div class="cd-sep">:</div>
+                    <div class="cd-unit">
+                        <span class="cd-value" id="cd-seconds">00</span>
+                        <span class="cd-label">secs</span>
+                    </div>
+                </div>
+                <p class="countdown-date">April 24, 2027</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
